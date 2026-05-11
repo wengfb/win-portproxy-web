@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WinPortProxyWeb</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Windows portproxy manager</p>
+        <h1>WinPortProxyWeb</h1>
+        <p class="muted">管理 Windows TCP 端口转发，并一键把端口转发到 WSL2。</p>
+      </div>
+      <button id="refreshBtn" class="secondary">刷新</button>
+    </header>
+
+    <div id="loginCard" class="login-overlay" hidden>
+      <section class="card login-dialog">
+        <h2>登录管理面板</h2>
+        <p class="muted small">远程访问需要输入管理密码。本机访问不需要登录。</p>
+        <form id="loginForm" class="login-form">
+          <label>
+            管理密码
+            <input name="password" type="password" required autocomplete="current-password">
+          </label>
+          <button type="submit">登录</button>
+        </form>
+      </section>
+    </div>
+
+    <section id="notice" class="notice">正在加载状态...</section>
+
+    <section class="card">
+      <h2>管理面板外部访问</h2>
+      <p class="muted small">双击启动后默认只允许本机管理。需要 Tailscale/局域网访问时，在这里设置密码并开启外部访问。</p>
+      <form id="adminAccessForm" class="firewall-form">
+        <label>
+          管理密码
+          <input name="password" type="password" minlength="8" autocomplete="new-password" placeholder="至少 8 位；已设置可留空">
+        </label>
+        <label class="checkbox-line">
+          <input name="externalAccessEnabled" type="checkbox">
+          允许外部网络访问管理面板
+        </label>
+        <button type="submit">应用访问设置</button>
+      </form>
+      <div class="inline-actions">
+        <button id="allowAdminFirewallBtn" class="secondary" type="button">一键开启管理面板防火墙</button>
+        <button id="toggleAutoStartBtn" class="secondary" type="button">启用开机自启</button>
+        <button id="resetAdminConfigBtn" class="danger" type="button">重置管理配置</button>
+        <span id="accessUrls" class="muted small"></span>
+      </div>
+    </section>
+
+    <section class="grid two">
+      <article class="card">
+        <h2>普通端口转发</h2>
+        <form id="ruleForm" class="form-grid">
+          <label>
+            Windows 监听地址
+            <input name="listenAddress" value="127.0.0.1" required inputmode="numeric" autocomplete="off">
+          </label>
+          <label>
+            Windows 监听端口
+            <input name="listenPort" type="number" min="1" max="65535" required placeholder="18080">
+          </label>
+          <label>
+            目标地址
+            <input name="connectAddress" value="127.0.0.1" required inputmode="numeric" autocomplete="off">
+          </label>
+          <label>
+            目标端口
+            <input name="connectPort" type="number" min="1" max="65535" required placeholder="80">
+          </label>
+          <button type="submit">添加转发</button>
+        </form>
+      </article>
+
+      <article class="card accent">
+        <h2>WSL 一键转发</h2>
+        <p class="muted small">默认创建 <code>0.0.0.0:Windows端口 -> WSL_IP:WSL服务端口</code>。这可能允许局域网设备访问。</p>
+        <form id="wslForm" class="form-grid">
+          <label class="wide">
+            WSL 发行版
+            <select name="distro" id="distroSelect"></select>
+          </label>
+          <label>
+            Windows 监听端口
+            <input name="listenPort" type="number" min="1" max="65535" required placeholder="18080">
+          </label>
+          <label>
+            WSL 服务端口
+            <input name="targetPort" type="number" min="1" max="65535" required placeholder="80">
+          </label>
+          <button type="submit">创建 WSL 转发</button>
+        </form>
+        <div class="inline-actions">
+          <button id="detectWslIpBtn" class="secondary" type="button">探测 WSL IP</button>
+          <span id="wslIp" class="muted small"></span>
+        </div>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="section-title">
+        <div>
+          <h2>当前转发规则</h2>
+          <p class="muted small">删除规则只需要监听地址和监听端口。</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>监听地址</th>
+              <th>监听端口</th>
+              <th>目标地址</th>
+              <th>目标端口</th>
+              <th>来源</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="rulesBody">
+            <tr><td colspan="6" class="empty">正在加载...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>防火墙放行</h2>
+      <p class="muted small">本工具不会自动开放防火墙。需要局域网访问时，请明确点击按钮创建入站 TCP 放行规则。</p>
+      <form id="firewallForm" class="firewall-form">
+        <label>
+          放行端口
+          <input name="port" type="number" min="1" max="65535" required placeholder="18080">
+        </label>
+        <label>
+          规则名称（可选）
+          <input name="name" placeholder="WinPortProxyWeb TCP 18080">
+        </label>
+        <button type="submit">创建防火墙规则</button>
+      </form>
+    </section>
+
+    <pre id="log" class="log" aria-live="polite"></pre>
+    <div id="toastHost" class="toast-host" aria-live="polite"></div>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

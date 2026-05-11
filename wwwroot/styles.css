@@ -1,0 +1,296 @@
+:root {
+  color-scheme: light;
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f4f7fb;
+  color: #162033;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  border-radius: 10px;
+  background: #1f6feb;
+  color: white;
+  cursor: pointer;
+  font-weight: 650;
+  padding: 10px 14px;
+}
+
+button:hover {
+  background: #195ec8;
+}
+
+button.secondary {
+  background: #e8eef8;
+  color: #1f3b64;
+}
+
+button.secondary:hover {
+  background: #dce6f5;
+}
+
+button.danger {
+  background: #d1242f;
+}
+
+button.danger:hover {
+  background: #ad1f28;
+}
+
+input,
+select {
+  width: 100%;
+  border: 1px solid #ccd7e5;
+  border-radius: 10px;
+  background: white;
+  color: #162033;
+  padding: 10px 12px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  color: #41506a;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+code {
+  background: #edf2f8;
+  border-radius: 6px;
+  padding: 2px 5px;
+}
+
+.shell {
+  display: grid;
+  gap: 18px;
+  margin: 0 auto;
+  max-width: 1180px;
+  padding: 28px;
+}
+
+.hero,
+.section-title {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hero h1,
+.card h2 {
+  margin: 0;
+}
+
+.eyebrow {
+  color: #1f6feb;
+  font-size: 13px;
+  font-weight: 750;
+  letter-spacing: .08em;
+  margin: 0 0 4px;
+  text-transform: uppercase;
+}
+
+.muted {
+  color: #66758c;
+}
+
+.small {
+  font-size: 13px;
+}
+
+.notice {
+  background: #fff8d8;
+  border: 1px solid #f0d36b;
+  border-radius: 14px;
+  color: #6d5700;
+  padding: 14px 16px;
+}
+
+.notice.ok {
+  background: #eaf8ef;
+  border-color: #95d5a5;
+  color: #1c6b34;
+}
+
+.card {
+  background: white;
+  border: 1px solid #e2e9f3;
+  border-radius: 18px;
+  box-shadow: 0 12px 34px rgba(24, 39, 75, .06);
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+}
+
+.card.accent {
+  border-color: #b8cdf8;
+}
+
+.grid {
+  display: grid;
+  gap: 18px;
+}
+
+.grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.form-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.form-grid button,
+.form-grid .wide {
+  grid-column: 1 / -1;
+}
+
+.inline-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border-bottom: 1px solid #e6edf5;
+  padding: 12px 10px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+th {
+  color: #52617a;
+  font-size: 13px;
+}
+
+.empty {
+  color: #66758c;
+  text-align: center;
+}
+
+.firewall-form {
+  align-items: end;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 180px 1fr auto;
+}
+
+.log {
+  background: #101827;
+  border-radius: 14px;
+  color: #c8d4e6;
+  margin: 0;
+  min-height: 48px;
+  overflow: auto;
+  padding: 14px;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 820px) {
+  .grid.two,
+  .form-grid,
+  .firewall-form {
+    grid-template-columns: 1fr;
+  }
+
+  .hero,
+  .section-title {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+.checkbox-line {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.checkbox-line input {
+  width: auto;
+}
+
+.login-overlay {
+  align-items: center;
+  background: rgba(15, 23, 42, .45);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 24px;
+  position: fixed;
+  z-index: 20;
+}
+
+.login-overlay[hidden] {
+  display: none;
+}
+
+.login-dialog {
+  max-width: 420px;
+  width: 100%;
+}
+
+.login-form {
+  display: grid;
+  gap: 14px;
+}
+
+.url-chip {
+  background: #edf2f8;
+  border-radius: 999px;
+  display: inline-block;
+  margin: 3px;
+  padding: 4px 9px;
+}
+
+.toast-host {
+  display: grid;
+  gap: 10px;
+  pointer-events: none;
+  position: fixed;
+  right: 24px;
+  top: 24px;
+  z-index: 40;
+}
+
+.toast {
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, .18);
+  color: white;
+  max-width: 360px;
+  padding: 12px 14px;
+}
+
+.toast.success {
+  background: #1a7f37;
+}
+
+.toast.error {
+  background: #d1242f;
+}
